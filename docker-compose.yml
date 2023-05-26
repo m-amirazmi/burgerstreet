@@ -1,0 +1,50 @@
+version: "3"
+services:
+  client-admin:
+    build:
+      context: ./client-admin
+      dockerfile: Dockerfile
+    container_name: client-admin
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./client-admin:/app
+    command: sh -c "npm rebuild esbuild && npm run dev"
+    depends_on:
+      - server
+
+  client-public:
+    build:
+      context: ./client-public
+      dockerfile: Dockerfile
+    container_name: client-public
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client-public:/app
+    command: sh -c "npm rebuild esbuild && npm run dev"
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: server
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/app
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - database
+
+  database:
+    image: mongo
+    container_name: database
+    volumes:
+      - "./database:/data/db"
+    ports:
+      - "27017:27017"

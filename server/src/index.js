@@ -1,14 +1,15 @@
-require("dotenv").config();
 const express = require("express");
-const db = require("./utils/database");
+const cors = require("cors");
 const app = express();
-const port = process.env.PORT || 9000;
+const port = 5000;
 
 app.use(express.json());
+app.use(cors());
 
-app.use(require("./routes/post.route"));
-
-db.on("connected", () => {
-  console.log("Database is connected successfully");
-  app.listen(port, () => console.log(`Listening to ${port}`));
+app.use("/api/message", (req, res) => {
+  return res.status(200).json({ message: "OK Connected! Refreshed Second" });
 });
+
+app.listen(port, () =>
+  console.log(`Listening to port http://localhost${port}`)
+);

@@ -5,7 +5,6 @@ import "./App.css";
 import { api } from "./utils/configs";
 
 function App() {
-  const [count, setCount] = useState(0);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -15,8 +14,7 @@ function App() {
   async function fetchMessage() {
     try {
       const { data } = await api.get("/hello");
-      console.log(data);
-      setMessages(data.data);
+      setMessages(data.data || []);
     } catch (error) {
       console.log("ERROR", error);
     }
@@ -31,6 +29,13 @@ function App() {
     await api.post("/hello", { message });
     e.target.reset();
     fetchMessage();
+  }
+
+  async function handleRemove(e) {
+    const id = e.target.dataset.id
+    if (!e || !id) return
+    await api.delete("/hello/" + id)
+    fetchMessage()
   }
 
   return (
@@ -48,7 +53,7 @@ function App() {
         style={{
           border: "1px solid #fff",
           padding: "12px",
-          display: "flex",
+          display: `${messages.length > 0 ? "flex" : "none"}`,
           gap: "8px",
           borderRadius: "8px",
         }}
@@ -62,7 +67,10 @@ function App() {
                 color: "#222",
                 padding: "4px 12px",
                 borderRadius: "8px",
+                cursor: 'pointer'
               }}
+              data-id={i._id}
+              onClick={handleRemove}
             >
               {i.message}
             </div>

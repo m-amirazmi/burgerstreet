@@ -9,6 +9,9 @@ services:
       - "3100:3100"
     volumes:
       - ./client-admin:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
     command: sh -c "npm rebuild esbuild && npm run dev"
     depends_on:
       - server
@@ -22,6 +25,9 @@ services:
       - "3000:3000"
     volumes:
       - ./client-public:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
     command: sh -c "npm rebuild esbuild && npm run dev"
     depends_on:
       - server
@@ -35,9 +41,10 @@ services:
       - "5000:5000"
     volumes:
       - ./server:/app
-    command: npm run dev
+      - /app/node_modules
     environment:
       - NODE_ENV=development
+    command: npm run dev
     restart: always
     depends_on:
       - database

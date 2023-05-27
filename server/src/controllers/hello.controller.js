@@ -16,3 +16,13 @@ exports.createHello = async (req, res) => {
   const message = await Hello.create({ message: req.body.message });
   return res.status(200).json({ message: "OK!", status: true, data: message });
 };
+
+exports.removeHello = async (req, res) => {
+  if (!req.params.id) {
+    res.status(400);
+    throw new Error("Please add an ID.");
+  }
+
+  await Hello.findByIdAndDelete(req.params.id)
+  return res.status(200).json({ message: "OK!", status: true })
+}

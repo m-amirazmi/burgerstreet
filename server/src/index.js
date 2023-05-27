@@ -7,10 +7,7 @@ const port = 5000;
 app.use(express.json());
 app.use(cors());
 
-app.use("/api", require("./routes/hello.routes"));
-app.use("/api/message", (req, res) => {
-  return res.status(200).json({ message: "OK Connected! Refreshed Second" });
-});
+app.use("/api/addresses", require("./routes/address.routes"));
 
 db.on("connected", () => {
   console.log("Database is connected successfully");

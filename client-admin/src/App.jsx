@@ -6,19 +6,32 @@ import { api } from "./utils/configs";
 
 function App() {
   const [count, setCount] = useState(0);
-  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    async function fetchMessage() {
-      try {
-        const { data } = await api.get("/message");
-        setMessage(data.message);
-      } catch (error) {
-        console.log("ERROR", error);
-      }
-    }
     fetchMessage();
   }, []);
+
+  async function fetchMessage() {
+    try {
+      const { data } = await api.get("/hello");
+      console.log(data);
+      setMessages(data.data);
+    } catch (error) {
+      console.log("ERROR", error);
+    }
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const message = formData.get("message");
+
+    await api.post("/hello", { message });
+    e.target.reset();
+    fetchMessage();
+  }
 
   return (
     <>
@@ -30,12 +43,50 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React Change x?</h1>
-      <h2>{message}</h2>
+      <h1>Vite + React Change?</h1>
+      <div
+        style={{
+          border: "1px solid #fff",
+          padding: "12px",
+          display: "flex",
+          gap: "8px",
+          borderRadius: "8px",
+        }}
+      >
+        {messages.map((i) => {
+          return (
+            <div
+              key={i._id}
+              style={{
+                background: "#ccc",
+                color: "#222",
+                padding: "4px 12px",
+                borderRadius: "8px",
+              }}
+            >
+              {i.message}
+            </div>
+          );
+        })}
+      </div>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "flex", gap: "8px", justifyContent: "center" }}
+        >
+          <input
+            style={{
+              padding: "8px 12px",
+              outline: "none",
+              border: "none",
+              borderRadius: "8px",
+            }}
+            placeholder="Enter your message..."
+            type="text"
+            name="message"
+          />
+          <button>Add Message</button>
+        </form>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>

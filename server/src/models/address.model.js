@@ -38,4 +38,4 @@ const addressSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("Stall", addressSchema);
+module.exports = model("Address", addressSchema);

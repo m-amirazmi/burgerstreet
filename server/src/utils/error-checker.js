@@ -27,3 +27,11 @@ exports.checkValidStateCountry = async (data) => {
   }
   return errorArray;
 };
+
+exports.checkNewStallErrors = async (data) => {
+  const errorArray = [];
+  if (!data.name) errorArray.push("Stall name cannot be emptied!");
+  if (!data.location) errorArray.push("Stall location cannot be emptied!");
+
+  return errorArray;
+};

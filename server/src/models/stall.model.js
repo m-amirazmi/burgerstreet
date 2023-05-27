@@ -11,9 +11,24 @@ const stallSchema = new Schema(
       type: String,
       required: false,
     },
-    images: {
+    image_urls: {
       type: [String],
       required: false,
+    },
+    contact: {
+      type: String,
+      required: false,
+    },
+    is_verified: {
+      type: String,
+      enum: ["pending", "verified", "rejected", "unlisted"],
+      default: "pending",
+      required: true,
+    },
+    location: {
+      type: Schema.Types.ObjectId,
+      ref: "Address",
+      required: true,
     },
   },
   { timestamps: true }

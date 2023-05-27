@@ -1,20 +1,20 @@
 # Data Model
 
-1. Stall
+Stall
 
 - images
 - name
 - description
-- opening_hours
+- **opening_hours**
 - location - address data model
 - contact
-- created_by
-- updated_by
+- **created_by**
+- **updated_by**
 - is_verified
-- menu - menu data model
-- amenities - amentity data model
+- **menu** - menu data model
+- **amenities** - amentity data model
 
-2. Address
+~~Address~~
 
 - postcode
 - street 1
@@ -25,10 +25,19 @@
 - state
 - country
 
-3. Menu
+Menu
 
 - name
 - images
 - main_category
 - sub_category
 - description
+
+---
+
+---
+
+- User
+  - Can edit & edit
+  - Has versioning to store all public edit version
+  - Need admin to moderate stall creation and update

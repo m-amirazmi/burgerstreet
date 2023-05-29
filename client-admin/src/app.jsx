@@ -2,17 +2,16 @@ import { useState } from "react";
 import { api } from "./utils/configs";
 
 export default function App() {
-
-  const [urls, setUrls] = useState([])
-  const [message, setMessage] = useState("")
+  const [urls, setUrls] = useState([]);
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     const fileInput = e.target.querySelector("input[type=file]");
 
-    setMessage("")
-    setUrls([])
+    setMessage("");
+    setUrls([]);
 
     formData.append("type", "stalls");
     formData.append("id", "asdkhjkgldsalfthisisstallid");
@@ -22,9 +21,9 @@ export default function App() {
       const { data } = await api.post("/uploads", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setUrls(data.urls)
+      setUrls(data.urls);
     } catch (error) {
-      setMessage(error.response.data.message)
+      setMessage(error.response.data.message);
     }
 
     e.target.reset();
@@ -42,13 +41,13 @@ export default function App() {
 
       <div>{message}</div>
 
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-3xl  mx-auto flex gap-2">
         {urls?.map((url) => {
           return (
-            <div key={url}>
-              <img src={url} />
+            <div key={url} className="h-60 w-60">
+              <img src={url} className="w-full h-full object-cover" />
             </div>
-          )
+          );
         })}
       </div>
     </div>

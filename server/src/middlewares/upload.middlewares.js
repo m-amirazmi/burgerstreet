@@ -1,11 +1,13 @@
 const multer = require("multer");
 
-exports.filesizeCheck = (err,req,res,next) => {
-    if (err instanceof multer.MulterError) {
-        console.log(err.code)
-        if (err.code === 'LIMIT_FILE_SIZE') {
-          return res.status(400).json({ message: 'File size limit exceeded'});
-        }
-      }
-      next(err);
-}
+const errCode = {
+  LIMIT_FILE_SIZE: "File size limit exceeded",
+  LIMIT_UNEXPECTED_FILE: "Max 5 files uploaded at same time",
+};
+
+exports.uploadErrorCheck = (err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    return res.status(400).json({ message: errCode[err.code] });
+  }
+  next(err);
+};

@@ -18,7 +18,10 @@ const storage = multer.diskStorage({
   },
 });
 
-exports.upload = multer({ storage: storage, limits:{fileSize: 1024 * 1024 * 0.5 } });
+exports.upload = multer({
+  storage: storage,
+  limits: { fileSize: 1024 * 1024 * 0.5 },
+});
 
 exports.uploadFiles = (req, res) => {
   const filePaths = req.files.map(

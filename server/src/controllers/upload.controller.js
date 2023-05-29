@@ -22,7 +22,7 @@ exports.upload = multer({ storage: storage });
 
 exports.uploadFiles = (req, res) => {
   const filePaths = req.files.map(
-    (file) => req.protocol + "://" + req.host + "/" + file.path
+    (file) => req.protocol + "://" + req.host + ":5000/" + file.path
   );
   res.json({ message: "Successfully uploaded!", urls: filePaths });
 };

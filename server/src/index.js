@@ -9,11 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use((req, res, next) => {
-  console.log("DEBUGG", path.join(__dirname, "uploads/"));
-  next();
-});
-app.use(express.static(path.join(__dirname, "uploads/")));
+app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 app.use("/api/addresses", require("./routes/address.routes"));
 app.use("/api/stalls", require("./routes/stall.routes"));
 app.use("/api/uploads", require("./routes/upload.routes"));

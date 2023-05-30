@@ -1,4 +1,5 @@
 const User = require("../models/user.model")
+const { ROLES } = require("../utils/constants")
 const { createSecretToken } = require("../utils/secrets")
 const bcrypt = require('bcrypt')
 
@@ -6,6 +7,9 @@ exports.signUp = async (req, res) => {
 	const { email } = req.body
 	const existingUser = await User.findOne({ email })
 	if (existingUser) return res.json({ message: "User already exists!" })
+
+	const hasRole = ROLES[req.body.role]
+	if (hasRole) req.body.roles = ["BS00", req.body.role]
 
 	const user = await User.create(req.body)
 	const token = createSecretToken(user._id)

@@ -18,6 +18,11 @@ const userSchema = new Schema({
 	password: {
 		type: String,
 		required: [true, 'Your password is required']
+	},
+	roles: {
+		type: [String],
+		required: true,
+		default: "BS00"
 	}
 }, {
 	timestamps: {

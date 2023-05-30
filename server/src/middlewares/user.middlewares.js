@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require("../models/user.model")
-const { TOKEN_KEY } = require('../utils/constants')
+const { TOKEN_KEY, ROLES } = require('../utils/constants')
 
 exports.verifyUser = async (req, res, next) => {
 	const token = req.cookies.token
@@ -11,8 +11,16 @@ exports.verifyUser = async (req, res, next) => {
 		else {
 			const user = await User.findById(data.id)
 			if (!user) return res.json({ status: false, message: "Unauthenticated!" })
-			res.json({ status: true, user: user })
+			req.user = user
 			next()
 		}
 	})
+}
+
+exports.isAdmin = async (req, res, next) => {
+	const userRoles = req.user.roles
+	let isAdmin = userRoles.find((r) => ROLES[r] === 'admin')
+
+	if (!isAdmin) return res.json({ status: false, message: "Unauthorized!" })
+	next()
 }

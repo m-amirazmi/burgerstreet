@@ -35,7 +35,12 @@ const addressSchema = new Schema(
       required: false,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: {
+      createdAt: 'created_at',
+      updatedAt: 'updated_at'
+    }
+  }
 );
 
 module.exports = model("Address", addressSchema);

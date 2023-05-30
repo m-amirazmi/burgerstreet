@@ -14,7 +14,7 @@ export default function App() {
     setUrls([]);
 
     formData.append("type", "stalls");
-    formData.append("id", "asdkhjkgldsalfthisisstallid");
+    formData.append("id", "thisisid");
     [...fileInput.files].forEach((file) => formData.append("images", file));
 
     try {
